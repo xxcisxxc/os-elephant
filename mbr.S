@@ -32,7 +32,7 @@ SECTION MBR vstart=0x7c00
 
    mov eax,LOADER_START_SECTOR
    mov bx,LOADER_BASE_ADDR
-   mov cx,1
+   mov cx,4
    call rd_disk_m_16
 
    jmp LOADER_BASE_ADDR
@@ -46,25 +46,25 @@ SECTION MBR vstart=0x7c00
 
    mov eax,esi
 
-   mov dx,0x1f3
+   mov dx,0x1F3
    out dx,al
 
    mov cl,8
    shr eax,cl
-   mov dx,0x1f4
+   mov dx,0x1F4
    out dx,al
 
    shr eax,cl
-   mov dx,0x1f5
+   mov dx,0x1F5
    out dx,al
 
    shr eax,cl
-   and al,0x0f
-   or al,0xe0
-   mov dx,0x1f6
+   and al,0x0F
+   or al,0xE0
+   mov dx,0x1F6
    out dx,al
 
-   mov dx,0x1f7
+   mov dx,0x1F7
    mov al,0x20
    out dx,al
 
@@ -79,7 +79,7 @@ SECTION MBR vstart=0x7c00
    mov dx,256
    mul dx
    mov cx,ax
-   mov dx,0x1f0
+   mov dx,0x1F0
  .go_on_read:
    in ax,dx
    mov [bx],ax
@@ -89,4 +89,4 @@ SECTION MBR vstart=0x7c00
    
 
    times 510-($-$$) db 0
-   db 0x55,0xaa
+   dw 0xAA55
