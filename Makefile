@@ -1,4 +1,5 @@
 LOAD_SEC = 0
+LOAD_NUM = 1
 
 bochs-start: bochsrc.$(shell uname) hd60M.img
 	bochs -f bochsrc.$(shell uname)
@@ -16,4 +17,4 @@ qemu-disk:
 	nasm -f bin -I include -o $@.bin $@.S
 
 load-disk:
-	dd if=$(LOAD_BIN) of=$(LOAD_IMG) bs=512 count=1 seek=$(LOAD_SEC) conv=notrunc
+	dd if=$(LOAD_BIN) of=$(LOAD_IMG) bs=512 count=$(LOAD_NUM) seek=$(LOAD_SEC) conv=notrunc
