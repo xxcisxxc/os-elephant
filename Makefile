@@ -19,5 +19,5 @@ qemu-disk:
 load-disk:
 	dd if=$(LOAD_BIN) of=$(LOAD_IMG) bs=512 count=$(LOAD_NUM) seek=$(LOAD_SEC) conv=notrunc
 
-kernel: kernel/main.c
+kernel-code: kernel/main.c
 	gcc -c -o main.o kernel/main.c && ld main.o -Ttext 0xc0001500 -e main -o kernel.bin
