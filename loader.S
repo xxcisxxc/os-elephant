@@ -21,7 +21,7 @@ dd DESC_VIDEO_HIGH4
 
 GDT_SIZE equ $-GDT_BASE
 GDT_LIMIT equ GDT_SIZE-1
-;times 60 dq 0
+times 60 dq 0
 SELECTOR_CODE equ (0x0001 << 3) + TI_GDT + RPL0
 SELECTOR_DATA equ (0x0002 << 3) + TI_GDT + RPL0
 SELECTOR_VIDEO equ (0x0003 << 3) + TI_GDT + RPL0
@@ -110,7 +110,9 @@ mov byte[gs:0xA0],'V'
 jmp SELECTOR_CODE:enter_kernel
 enter_kernel:
   call kernel_init
-  mov esp,0xc009f00
+  mov byte [gs:0xB0],"K"
+  mov byte [gs:0xB1],0x79
+  mov esp,0xc009f000
   jmp KERNEL_ENTRY_POINT
 
 setup_page:
