@@ -225,7 +225,7 @@ kernel_init:
   push dword [ebx+8]
   call mem_cpy
   add esp,12
-.PTNULL
+.PTNULL:
   add ebx,edx
   loop .each_segment
   ret
