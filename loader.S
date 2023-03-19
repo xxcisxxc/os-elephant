@@ -31,6 +31,8 @@ gdt_ptr dw GDT_LIMIT
 
 loader_start:
 
+mov sp,LOADER_BASE_ADDR
+
 mov byte [gs:0x20],'2'
 mov byte [gs:0x21],0xA4
 
