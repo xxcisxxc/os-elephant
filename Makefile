@@ -24,7 +24,11 @@ load-disk: mbr.bin loader.bin kernel.bin
 %.bin: %.S include/boot.inc
 	nasm -f bin -I include -o $*.bin $*.S
 
-kernel.bin: kernel/main.c lib/kernel/print.S
-	gcc -m32 -I lib/kernel/ -I lib/ -c -o main.o kernel/main.c
-	nasm -f elf -o print.o lib/kernel/print.S
-	ld -melf_i386  -Ttext 0xc0001500 -e main -o kernel.bin main.o print.o
+kernel.bin: kernel/main.o lib/kernel/print.o kernel/kernel.o kernel/interrupt.o kernel/init.o
+	ld -melf_i386  -Ttext 0xc0001500 -e main -o kernel.bin $^
+
+%.o: %.c lib/kernel lib/ kernel/
+	gcc -m32 -I lib/kernel -I lib/ -I kernel/ -c -fno-builtin -o $*.o $*.c
+
+%.o: %.S
+	nasm -f elf -o $*.o $*.S
