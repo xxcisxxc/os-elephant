@@ -14,8 +14,8 @@
 struct gate_desc {
   uint16_t func_offset_low_word;
   uint16_t selector;
-  uint16_t dcount;
-  uint16_t attribute;
+  uint8_t dcount;
+  uint8_t attribute;
   uint16_t func_offset_high_word;
 };
 
@@ -62,7 +62,7 @@ void idt_init() {
   idt_desc_init();
   pic_init();
 
-  uint64_t idt_operand = (sizeof(idt) - 1) | (uint64_t)((u_int32_t)idt << 16);
+  uint64_t idt_operand = (sizeof(idt) - 1) | ((uint64_t)(uint32_t)idt) << 16;
   asm volatile("lidt %0" : : "m" (idt_operand));
   put_str("idt_init done\n");
 }
