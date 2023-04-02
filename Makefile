@@ -32,11 +32,11 @@ load-kernel: kernel.bin
 %.bin: boot/%.S boot/include/boot.inc
 	nasm -f bin -I boot/include -o $*.bin boot/$*.S
 
-kernel.bin: kernel/main.o lib/kernel/print.o kernel/kernel.o kernel/interrupt.o kernel/init.o
+kernel.bin: kernel/main.o lib/kernel/print.o kernel/kernel.o kernel/interrupt.o kernel/init.o device/timer.o
 	ld -melf_i386  -Ttext 0xc0001500 -e main -o kernel.bin $^
 
-%.o: %.c lib/kernel lib/ kernel/
-	gcc -m32 -I lib/kernel -I lib/ -I kernel/ -c -o $*.o $*.c
+%.o: %.c lib/kernel lib/ kernel/ device/
+	gcc -m32 -I lib/kernel -I lib/ -I kernel/ -I device/ -c -o $*.o $*.c
 
 %.o: %.S
 	nasm -f elf -o $*.o $*.S
