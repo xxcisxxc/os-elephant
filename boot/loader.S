@@ -26,6 +26,8 @@ SELECTOR_CODE equ (0x0001 << 3) + TI_GDT + RPL0
 SELECTOR_DATA equ (0x0002 << 3) + TI_GDT + RPL0
 SELECTOR_VIDEO equ (0x0003 << 3) + TI_GDT + RPL0
 
+total_mem_bytes dd 0
+
 gdt_ptr dw GDT_LIMIT
         dd GDT_BASE
 
@@ -134,6 +136,9 @@ or eax,0x00000001
 mov cr0,eax
 
 jmp dword SELECTOR_CODE:p_mode_start
+
+.error_hlt:
+   hlt
 
 [bits 32]
 p_mode_start:
