@@ -34,11 +34,11 @@ load-kernel: kernel.bin
 %.bin: boot/%.S boot/include/boot.inc
 	nasm -f bin -I boot/include -o $*.bin boot/$*.S
 
-kernel.bin: kernel/main.o lib/kernel/print.o kernel/kernel.o kernel/interrupt.o kernel/init.o device/timer.o kernel/debug.o lib/string.o lib/kernel/bitmap.o kernel/memory.o
+kernel.bin: kernel/main.o lib/kernel/print.o kernel/kernel.o kernel/interrupt.o kernel/init.o device/timer.o kernel/debug.o lib/string.o lib/kernel/bitmap.o kernel/memory.o thread/thread.o
 	ld -melf_i386  -Ttext 0xc0001500 -e main -o kernel.bin $^
 
-%.o: %.c lib/kernel lib/ kernel/ device/
-	gcc -m32 -Wall -fno-builtin -W -Wstrict-prototypes -Wmissing-prototypes -I lib/kernel -I lib/ -I kernel/ -I device/ -c -o $*.o $*.c
+%.o: %.c lib/kernel lib/ kernel/ device/ thread/
+	gcc -m32 -Wall -fno-builtin -W -Wstrict-prototypes -Wmissing-prototypes -I lib/kernel -I lib/ -I kernel/ -I device/ -I thread/ -c -o $*.o $*.c
 
 %.o: %.S
 	nasm -f elf -o $*.o $*.S

@@ -25,5 +25,6 @@ int main(void) {
 
 void k_thread_a(void *arg) {
   char *para = arg;
-  put_str(para);
+  while(1) 
+  	put_str(para);
 }
